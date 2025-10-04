@@ -2,47 +2,61 @@ workflows:
   react-native-android:
     name: React Native Android AAB Build
     max_build_duration: 60
+
     environment:
       vars:
-        PACKAGE_NAME: 'nuh'
-      node: latest
-      java: 17
+        PACKAGE_NAME: 'com.nuhdating' # ⚡ Your real package name
+      node: latest # Use latest Node LTS (for RN CLI)
+      java: 17 # RN Gradle 8.x compatible
+      android_signing:
+        keystore_path: /tmp/release.keystore
+        keystore_password: $CM_KEYSTORE_PASSWORD
+        key_alias: $CM_KEY_ALIAS
+        key_password: $CM_KEY_PASSWORD
+
     cache:
       cache_paths:
         - node_modules
         - ~/.gradle/caches
         - ~/.gradle/wrapper
+
     scripts:
       - name: Install dependencies
         script: |
+          echo "📦 Installing dependencies..."
           npm ci --prefer-offline --no-audit --no-fund
 
       - name: Prepare Android signing
         script: |
           if [ -n "$CM_KEYSTORE" ]; then
-            echo "Decoding keystore..."
+            echo "🔑 Decoding release keystore..."
             echo "$CM_KEYSTORE" | base64 --decode > /tmp/release.keystore
 
-            echo "Writing keystore.properties..."
+            echo "📝 Writing keystore.properties..."
             rm -f android/keystore.properties
-            echo "storePassword=$CM_KEYSTORE_PASSWORD" >> android/keystore.properties
-            echo "keyPassword=$CM_KEY_PASSWORD" >> android/keystore.properties
-            echo "keyAlias=$CM_KEY_ALIAS" >> android/keystore.properties
-            echo "storeFile=/tmp/release.keystore" >> android/keystore.properties
+            cat <<EOF > android/keystore.properties
+            storePassword=$CM_KEYSTORE_PASSWORD
+            keyPassword=$CM_KEY_PASSWORD
+            keyAlias=$CM_KEY_ALIAS
+            storeFile=/tmp/release.keystore
+            EOF
           else
-            echo "⚠️ Warning: CM_KEYSTORE not found. The AAB will be unsigned."
+            echo "⚠️ Warning: CM_KEYSTORE not found — building unsigned AAB."
           fi
 
       - name: Clean Android build
         working_directory: android
         script: |
-          ./gradlew clean
+          echo "🧹 Cleaning previous builds..."
+          chmod +x ./gradlew
+          ./gradlew clean --no-daemon
 
       - name: Build Release AAB
         working_directory: android
         script: |
+          echo "🚀 Building release AAB..."
           chmod +x ./gradlew
-          ./gradlew bundleRelease --no-daemon
+          ./gradlew bundleRelease --no-daemon --stacktrace
 
     artifacts:
       - android/app/build/outputs/**/*.aab
