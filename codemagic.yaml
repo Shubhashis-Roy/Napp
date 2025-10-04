@@ -5,14 +5,14 @@ workflows:
 
     environment:
       vars:
-        PACKAGE_NAME: 'com.nuhdating' # ⚡ Your real package name
-      node: latest # Use latest Node LTS (for RN CLI)
-      java: 17 # RN Gradle 8.x compatible
+        PACKAGE_NAME: 'com.nuhdating' # ⚡ Use your actual package name
+      node: latest # Node version for React Native
+      java: 17 # Required for Gradle 8.x and AGP 8+
       android_signing:
-        keystore_path: /tmp/release.keystore
-        keystore_password: $CM_KEYSTORE_PASSWORD
-        key_alias: $CM_KEY_ALIAS
-        key_password: $CM_KEY_PASSWORD
+        - keystore_path: /tmp/release.keystore
+          keystore_password: $CM_KEYSTORE_PASSWORD
+          key_alias: $CM_KEY_ALIAS
+          key_password: $CM_KEY_PASSWORD
 
     cache:
       cache_paths:
