@@ -5,11 +5,11 @@ workflows:
 
     environment:
       vars:
-        PACKAGE_NAME: 'com.nuhdating' # ⚡ Use your actual package name
-      node: latest # Node version for React Native
-      java: 17 # Required for Gradle 8.x and AGP 8+
+        PACKAGE_NAME: "com.nuhdating"   # ⚡ must match your appId in build.gradle
+      node: latest
+      java: 17
       android_signing:
-        - keystore_path: /tmp/release.keystore
+        - keystore: /tmp/release.keystore
           keystore_password: $CM_KEYSTORE_PASSWORD
           key_alias: $CM_KEY_ALIAS
           key_password: $CM_KEY_PASSWORD
@@ -35,11 +35,11 @@ workflows:
             echo "📝 Writing keystore.properties..."
             rm -f android/keystore.properties
             cat <<EOF > android/keystore.properties
-            storePassword=$CM_KEYSTORE_PASSWORD
-            keyPassword=$CM_KEY_PASSWORD
-            keyAlias=$CM_KEY_ALIAS
-            storeFile=/tmp/release.keystore
-            EOF
+storePassword=$CM_KEYSTORE_PASSWORD
+keyPassword=$CM_KEY_PASSWORD
+keyAlias=$CM_KEY_ALIAS
+storeFile=/tmp/release.keystore
+EOF
           else
             echo "⚠️ Warning: CM_KEYSTORE not found — building unsigned AAB."
           fi
