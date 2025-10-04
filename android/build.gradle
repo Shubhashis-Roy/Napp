@@ -1,7 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 
-import com.android.build.OutputFile
 import java.util.Properties
 import java.io.FileInputStream
 
@@ -13,15 +12,15 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.nuh"   // ⚡ update this with your package name
+    namespace "com.nuh" // ⚡ update this with your package name
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.nuh"   // ⚡ update this with your package name
+        applicationId "com.nuh" // ⚡ update this with your package name
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1             // ⚡ increase this for every Play Store release
-        versionName "1.0.0"       // ⚡ human-readable version
+        versionCode 1
+        versionName "1.0.0"
     }
 
     signingConfigs {
@@ -43,12 +42,11 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled false
             shrinkResources false
-            // ⚡ enable if you want ProGuard/R8
             // proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
 
-    // Ensure splits don’t interfere with AAB builds
+    // ✅ Prevent language splits for AAB builds
     bundle {
         language {
             enableSplit = false
@@ -60,7 +58,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-android"
     implementation "androidx.core:core-splashscreen:1.0.1"
-    // Add other dependencies your project needs
+    // Add any other dependencies your project uses
 }
 
 // Required for React Native

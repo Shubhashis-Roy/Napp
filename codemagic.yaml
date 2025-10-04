@@ -4,7 +4,7 @@ workflows:
     max_build_duration: 60
     environment:
       vars:
-        PACKAGE_NAME: "nuh"
+        PACKAGE_NAME: 'nuh'
       node: latest
       java: 17
     cache:
@@ -34,13 +34,13 @@ workflows:
           fi
 
       - name: Clean Android build
+        working_directory: android
         script: |
-          cd android
           ./gradlew clean
 
       - name: Build Release AAB
+        working_directory: android
         script: |
-          cd android
           chmod +x ./gradlew
           ./gradlew bundleRelease --no-daemon
 
