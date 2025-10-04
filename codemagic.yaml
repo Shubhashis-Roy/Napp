@@ -1,27 +1,55 @@
 workflows:
   react-native-android:
-    name: React Native Android Build
+    name: React Native Android AAB Build
     max_build_duration: 60
     environment:
       vars:
-        PACKAGE_NAME: 'nuh' # your app package name
+        PACKAGE_NAME: 'nuh'
       node: latest
       java: 17
+    cache:
+      cache_paths:
+        - node_modules
+        - ~/.gradle/caches
+        - ~/.gradle/wrapper
     scripts:
       - name: Install dependencies
         script: |
-          npm install
+          npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Prepare Android signing
+        script: |
+          if [ -n "$CM_KEYSTORE" ]; then
+            echo "Decoding keystore..."
+            echo "$CM_KEYSTORE" | base64 --decode > /tmp/release.keystore
+
+            echo "Writing keystore.properties..."
+            cat > android/keystore.properties <<EOF
+            storePassword=$CM_KEYSTORE_PASSWORD
+            keyPassword=$CM_KEY_PASSWORD
+            keyAlias=$CM_KEY_ALIAS
+            storeFile=/tmp/release.keystore
+            EOF
+          else
+            echo "⚠️ Warning: CM_KEYSTORE not found. The AAB will be unsigned."
+          fi
+
       - name: Clean Android build
         script: |
           cd android
           ./gradlew clean
-      - name: Build Release APK
+
+      - name: Build Release AAB
         script: |
           cd android
-          ./gradlew assembleRelease
+          chmod +x ./gradlew
+          ./gradlew bundleRelease --no-daemon
+
     artifacts:
-      - android/app/build/outputs/**/*.apk
       - android/app/build/outputs/**/*.aab
+      - android/app/build/outputs/**/mapping.txt
+      - android/app/build/outputs/**/mapping.txt.gz
+
     publishing:
       email:
         recipients:
