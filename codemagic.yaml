@@ -5,14 +5,9 @@ workflows:
 
     environment:
       vars:
-        PACKAGE_NAME: "com.nuhdating"   # ⚡ must match your appId in build.gradle
+        PACKAGE_NAME: "com.nuhdating"
       node: latest
       java: 17
-      android_signing:
-        - keystore: /tmp/release.keystore
-          keystore_password: $CM_KEYSTORE_PASSWORD
-          key_alias: $CM_KEY_ALIAS
-          key_password: $CM_KEY_PASSWORD
 
     cache:
       cache_paths:
@@ -35,11 +30,11 @@ workflows:
             echo "📝 Writing keystore.properties..."
             rm -f android/keystore.properties
             cat <<EOF > android/keystore.properties
-            storePassword=$CM_KEYSTORE_PASSWORD
-            keyPassword=$CM_KEY_PASSWORD
-            keyAlias=$CM_KEY_ALIAS
-            storeFile=/tmp/release.keystore
-            EOF
+storePassword=$CM_KEYSTORE_PASSWORD
+keyPassword=$CM_KEY_PASSWORD
+keyAlias=$CM_KEY_ALIAS
+storeFile=/tmp/release.keystore
+EOF
           else
             echo "⚠️ Warning: CM_KEYSTORE not found — building unsigned AAB."
           fi
