@@ -25,11 +25,11 @@ workflows:
 
             echo "Writing keystore.properties..."
             cat > android/keystore.properties <<EOF
-storePassword=$CM_KEYSTORE_PASSWORD
-keyPassword=$CM_KEY_PASSWORD
-keyAlias=$CM_KEY_ALIAS
-storeFile=/tmp/release.keystore
-EOF
+            storePassword=$CM_KEYSTORE_PASSWORD
+            keyPassword=$CM_KEY_PASSWORD
+            keyAlias=$CM_KEY_ALIAS
+            storeFile=/tmp/release.keystore
+            EOF
           else
             echo "⚠️ Warning: CM_KEYSTORE not found. The AAB will be unsigned."
           fi
