@@ -24,12 +24,11 @@ workflows:
             echo "$CM_KEYSTORE" | base64 --decode > /tmp/release.keystore
 
             echo "Writing keystore.properties..."
-            cat > android/keystore.properties <<EOF
-            storePassword=$CM_KEYSTORE_PASSWORD
-            keyPassword=$CM_KEY_PASSWORD
-            keyAlias=$CM_KEY_ALIAS
-            storeFile=/tmp/release.keystore
-            EOF
+            rm -f android/keystore.properties
+            echo "storePassword=$CM_KEYSTORE_PASSWORD" >> android/keystore.properties
+            echo "keyPassword=$CM_KEY_PASSWORD" >> android/keystore.properties
+            echo "keyAlias=$CM_KEY_ALIAS" >> android/keystore.properties
+            echo "storeFile=/tmp/release.keystore" >> android/keystore.properties
           else
             echo "⚠️ Warning: CM_KEYSTORE not found. The AAB will be unsigned."
           fi
