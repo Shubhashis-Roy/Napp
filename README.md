@@ -85,6 +85,3 @@ You've successfully run and modified your React Native App. :partying_face:
 # Learn More
 
 To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-
