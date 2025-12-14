@@ -18,8 +18,6 @@ For iOS, remember to install CocoaPods dependencies (this only needs to be run o
 
 The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
 
-Then, and every time you update your native dependencies, run:
-
 If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
 
 ## Step 3: Modify your app
