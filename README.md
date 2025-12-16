@@ -16,7 +16,7 @@ With Metro running, open a new terminal window/pane from the root of your React 
 
 For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator.
 
 ## Step 3: Modify your app
 
