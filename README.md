@@ -20,4 +20,4 @@ If everything is set up correctly, you should see your new app running in the An
 
 ## Step 3: Modify your app
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes.
