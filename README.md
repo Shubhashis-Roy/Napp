@@ -18,6 +18,4 @@ For iOS, remember to install CocoaPods dependencies (this only needs to be run o
 
 If everything is set up correctly, you should see your new app running in the Android Emulator.
 
-## Step 3: Modify your app
-
 Open `App.tsx` in your text editor of choice and make some changes.
